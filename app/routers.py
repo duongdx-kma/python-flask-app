@@ -1,6 +1,5 @@
-from flask import render_template, request, redirect, url_for
-from app import app
-from app.logic import get_users, add_user_to_db
+from flask import render_template, request, redirect, url_for, current_app as app
+from .logic import get_users, add_user_to_db
 
 @app.route('/')
 def index():

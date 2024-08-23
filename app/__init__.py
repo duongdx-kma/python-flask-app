@@ -1,5 +1,10 @@
 from flask import Flask
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-from app import routes
+    # Import and register routes inside the function to avoid circular imports
+    with app.app_context():
+        from . import routes
+
+    return app
