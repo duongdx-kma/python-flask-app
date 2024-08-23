@@ -1,18 +1,19 @@
 import mysql.connector
+import os
 
 # MySQL configuration
 write_db_config = {
     'user': os.getenv('WRITE_DB_USER'),
-        'password': os.getenv('WRITE_DB_PASSWORD'),
-        'host': os.getenv('WRITE_DB_HOST'),
-        'database': os.getenv('DB_NAME', 'webappdb')
+    'password': os.getenv('WRITE_DB_PASSWORD'),
+    'host': os.getenv('WRITE_DB_HOST'),
+    'database': os.getenv('DB_NAME')
 }
 
 read_db_config = {
     'user': os.getenv('READ_DB_USER'),
-        'password': os.getenv('READ_DB_PASSWORD'),
-        'host': os.getenv('READ_DB_HOST'),
-        'database': os.getenv('DB_NAME', 'webappdb')
+    'password': os.getenv('READ_DB_PASSWORD'),
+    'host': os.getenv('READ_DB_HOST'),
+    'database': os.getenv('DB_NAME')
 }
 
 def get_db_connection(config):

@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - scripts/initdb.sql:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  
+  webapp:
+    container_name: python-webapp
+    image: duong1200798/python-webapp
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - app_network
+    ports:
+      - "${APP_PORT}:8088"
+    depends_on:
+      - database
+    environment:
+      # writer config
+      - WRITE_DB_HOST=${WRITE_DB_HOST}
+      - WRITE_DB_USER=${WRITE_DB_USER}
+      - WRITE_DB_PASSWORD=${WRITE_DB_PASSWORD}
+      # reader config
+      - READ_DB_HOST=${READ_DB_HOST}
+      - READ_DB_USER=${READ_DB_USER}
+      - READ_DB_PASSWORD=${READ_DB_PASSWORD}
+      # db config
+      - DB_NAME=${DB_DATABASE}
+      - DB_PORT=${DB_PORT}
+      # app config
+      - APP_PORT=${APP_PORT}
+      - APP_ENV=${APP_ENV}
+
+volumes:
+  db-data: {}
+
+networks:
+  - app_network: 
+      name: app_network
