@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   database:
@@ -7,12 +7,14 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - scripts/initdb.sql:/docker-entrypoint-initdb.d
+      - ./scripts/initdb.sql:/docker-entrypoint-initdb.d
       - db-data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    networks:
+      - app_network
   
   webapp:
     container_name: python-webapp
@@ -37,7 +39,7 @@ services:
       - READ_DB_USER=${READ_DB_USER}
       - READ_DB_PASSWORD=${READ_DB_PASSWORD}
       # db config
-      - DB_NAME=${DB_DATABASE}
+      - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
       # app config
       - APP_PORT=${APP_PORT}
@@ -47,5 +49,5 @@ volumes:
   db-data: {}
 
 networks:
-  - app_network: 
-      name: app_network
+  app_network:
+    name: app_network
