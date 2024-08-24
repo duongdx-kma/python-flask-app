@@ -25,7 +25,7 @@ services:
     networks:
       - app_network
     ports:
-      - "${APP_PORT}:8088"
+      - "${APP_PORT}:${APP_PORT}"
     depends_on:
       - database
     environment:
